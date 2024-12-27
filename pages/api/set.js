@@ -19,13 +19,12 @@ export default async function handler(req, res) {
         if (!Array.isArray(answers)) {
             answers = [];
         }
-        answers[index].default = true;
+
         // 其他的default属性设为false
-        answers.forEach((a, i) => {
-            if (i !== index) {
-                a.default = false;
-            }
-        });
+        for (let answer of answers) {
+            answer.default = false;
+        }
+        answers[index].default = true;
         await updateUser(answers);
 
 
