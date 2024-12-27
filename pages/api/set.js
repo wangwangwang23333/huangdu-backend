@@ -20,6 +20,12 @@ export default async function handler(req, res) {
             answers = [];
         }
         answers[index].default = true;
+        // 其他的default属性设为false
+        answers.forEach((a, i) => {
+            if (i !== index) {
+                a.default = false;
+            }
+        });
         await updateUser(answers);
 
 
