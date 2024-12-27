@@ -9,6 +9,7 @@
         "deploy": "vercel"
     },
     "dependencies": {
+        "@vercel/edge-config": "^1.4.0",
         "cors": "^2.8.5",
         "cos-nodejs-sdk-v5": "^2.13.3",
         "formidable": "^2.0.1",
