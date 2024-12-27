@@ -11,7 +11,7 @@ export default async function handler(req, res) {
     // 获取param的index，将global.userAnswers数组中对应index的元素的default属性设为true
     if (req.method === 'GET') {
         const index = req.query.index;
-        if (index < 0 || index >= global.userAnswers.length) {
+        if (index < 0) {
             return res.status(400).json({ message: 'Invalid index' });
         }
         // 如果global.userAnswers不存在，则初始化数组
