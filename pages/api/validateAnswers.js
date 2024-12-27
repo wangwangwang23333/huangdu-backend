@@ -1,8 +1,12 @@
 // pages/api/validateAnswers.js
 
-import { correctAnswers } from './correctAnswer';
 
-export default function handler(req, res) {
+import { correctAnswers } from './correctAnswer';
+import fs from 'fs';
+import path from 'path';
+import JSON from 'json5';
+
+export default async function handler(req, res) {
     res.setHeader('Access-Control-Allow-Origin', '*');
     res.setHeader('Access-Control-Allow-Methods', 'POST', 'OPTIONS');
     res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
@@ -23,18 +27,30 @@ export default function handler(req, res) {
   // 存储最后两题到全局变量数组中。
   // 如果数组长度大于10，那么就移除第一个元素，保持数组长度为10
   // 还需要初始化
-    if (!global.userAnswers) {
-        global.userAnswers = [];
-    }
-    if (global.userAnswers.length >= 10) {
-        global.userAnswers.shift();
+  // 从edge-config中获取
+
+    const filePath = path.join(process.cwd(), 'data', 'user.json');
+    if (fs.existsSync(filePath)) {
+        // 获取user.json文件内容
+        let answers = JSON.parse(fs.readFileSync(filePath, 'utf-8'));
+        if (!Array.isArray(answers)) {
+            answers = [];
+        }
+        if (answers.length >= 10) {
+            answers.shift();
+        }
+        answers.push({
+            "name": userAnswers[18],
+            "avatar": userAnswers[19],
+            "default": false
+        });
+        // 将answers写到/data/user.json中
+        fs.writeFileSync(filePath, JSON.stringify(answers));
+
     }
 
-    global.userAnswers.push({
-        "name": userAnswers[18],
-        "avatar": userAnswers[19],
-        "default": false
-    });
+
+    
 
 
 
