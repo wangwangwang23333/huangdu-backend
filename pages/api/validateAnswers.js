@@ -2,9 +2,7 @@
 
 
 import { correctAnswers } from './correctAnswer';
-import fs from 'fs';
-import path from 'path';
-import JSON from 'json5';
+import { getUser, updateUser, createUser } from './data';
 
 export default async function handler(req, res) {
     res.setHeader('Access-Control-Allow-Origin', '*');
@@ -28,31 +26,26 @@ export default async function handler(req, res) {
   // 如果数组长度大于10，那么就移除第一个元素，保持数组长度为10
   // 还需要初始化
   // 从edge-config中获取
-
-    const filePath = path.join(process.cwd(), 'data', 'user.json');
-    if (fs.existsSync(filePath)) {
-        // 获取user.json文件内容
-        let answers = JSON.parse(fs.readFileSync(filePath, 'utf-8'));
-        if (!Array.isArray(answers)) {
-            answers = [];
-        }
-        if (answers.length >= 10) {
-            answers.shift();
-        }
-        answers.push({
-            "name": userAnswers[18],
-            "avatar": userAnswers[19],
-            "default": false
-        });
-        // 将answers写到/data/user.json中
-        fs.writeFileSync(filePath, JSON.stringify(answers));
-
+  
+  let answers = await getUser();
+    if (!Array.isArray(answers)) {
+        answers = [];
+        // set回去
+        await createUser(answers);
+    }
+    if (answers.length >= 10) {
+        answers.shift();
     }
 
+    answers.push({
+        "name": userAnswers[18],
+        "avatar": userAnswers[19],
+        "default": false
+    });
+
+    await updateUser(answers);
 
     
-
-
 
   // 判断9-12题是否全部为null（即index为8-11）
     const isNull = userAnswers.slice(8, 12).every(a => a === null);
