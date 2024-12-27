@@ -1,0 +1,20 @@
+{
+    "name": "my-vercel-tencent-cos-backend",
+    "version": "1.0.0",
+    "description": "Vercel Serverless Functions with Tencent Cloud COS Integration",
+    "scripts": {
+        "dev": "next dev",
+        "build": "next build",
+        "start": "next start",
+        "deploy": "vercel"
+    },
+    "dependencies": {
+        "cors": "^2.8.5",
+        "cos-nodejs-sdk-v5": "^2.13.3",
+        "formidable": "^2.0.1",
+        "next": "latest",
+        "react": "latest",
+        "react-dom": "latest"
+    },
+    "license": "MIT"
+}
